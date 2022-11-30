@@ -16,7 +16,7 @@
     - summary : string : null
     - photo : relation ( Photo ) : null
     - albums : relation ( Album ) : null
-    - features : relation ( Title ) : null
+  //  - features : relation ( Title ) : null
 - Title :
     - name : string
     - album : relation ( Album )

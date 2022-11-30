@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+    {{ form_widget(form._token) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.release_date) }}
+        {{ form_row(form.artists)  }}
+        {{ form_row(form.category)  }}
+<button type="button" class="btn btn-primary btn-new" data-collection="#titles">NEW TITRE</button>
+<div
+        id="titles"
+        class="row"
+        data-prototype="{{ include("album/_title.html.twig", {form: form.titles.vars.prototype})|e("html_attr") }}"
+        data-index="{{ form.titles|length > 0 ? form.titles|last.vars.name + 1 : 0 }}">
+    {% for title in form.titles %}
+        <div class="col-4">
+            {{ include("album/_title.html.twig", {form: title}) }}
+            <p>&nbsp;</p>
+        </div>
+    {% endfor %}
+</div>
+{{ form_errors(form.titles) }}
+<p>&nbsp;</p>
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

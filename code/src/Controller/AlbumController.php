@@ -39,7 +39,7 @@ class AlbumController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $albumRepository->add($album, true);
-            $saveAppears->execute($album,$artistRepository,$titleRepository);
+            $saveAppears->exec($album,$artistRepository,$titleRepository);
             return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -69,7 +69,7 @@ class AlbumController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $albumRepository->add($album, true);
-            $saveAppears->execute($album,$artistRepository,$titleRepository);
+            $saveAppears->exec($album,$artistRepository,$titleRepository);
             return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
         }
 

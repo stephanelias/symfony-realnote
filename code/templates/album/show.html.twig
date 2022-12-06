@@ -23,7 +23,25 @@
                 <th>Tracks</th>
                 <td>
                     {% for t in album.titles %}
-                    {{ t.name }}
+                    <div>
+                        <p>{{ t.name }}</p>
+                        <p>
+                           {% for ar in t.album.artists %}
+                               {% if loop.last %}
+                                   <a href="{{ path('app_artist_show', {'id': ar.id}) }}">{{ ar.name }}</a>
+                               {% else %}
+                                   <a href="{{ path('app_artist_show', {'id': ar.id}) }}">{{ ar.name }}, </a>
+                               {% endif %}
+                           {% endfor %}
+                            {% for f in t.feats %}
+                                {% if loop.last %}
+                                    <a href="{{ path('app_artist_show', {'id': f.id}) }}">{{ f.name }}</a>
+                                {% else %}
+                                    <a href="{{ path('app_artist_show', {'id': f.id}) }}"> {{ f.name }}, </a>
+                                {% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
                     {% endfor %}
                 </td>
             </tr>

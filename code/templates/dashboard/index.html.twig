@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <p>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Voir les artistes</a>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Voir les albums</button>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Voir Tout</button>
+        </p>
+        <div class="row">
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="card card-body">
+                        <a class="btn btn-dark" href={{ path("app_artist_new") }}>Créer</a>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set i = 1  %}
+                            {% for artist in artists %}
+                                <tr>
+                                    <th scope="col" style="vertical-align: middle">{{ i }}</th>
+                                    <th scope="col">
+                                        <img src="https://via.placeholder.com/50" alt="">&nbsp&nbsp{{ artist.name }}
+                                    </th>
+                                    <th scope="col" style="vertical-align: middle">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <a href="{{ path('app_artist_show', {'id': artist.id}) }}"  class="btn btn-dark">Détail</a>
+                                            <a href="{{ path('app_artist_edit', {'id': artist.id}) }}"  class="btn btn-dark">Modifier</a>
+                                        </div>
+                                    </th>
+                                </tr>
+                                {% set i = i + 1 %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample2">
+                    <div class="card card-body">
+                        <a class="btn btn-dark" href={{ path("app_album_new") }}>Créer</a>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Artiste(s)</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set i = 1  %}
+                            {% for album in albums %}
+                                <tr>
+                                    <th scope="col" style="vertical-align: middle">{{ i }}</th>
+                                    <th scope="col">
+                                        <img src="https://via.placeholder.com/50" alt="">&nbsp&nbsp{{ album.name }}
+                                    </th>
+                                    <th scope="col" style="vertical-align: middle">
+                                        {% for a in album.artists %}
+                                            {% if loop.last %}
+                                            {{ a.name }}
+                                            {% else %}
+                                            {{ a.name }}, &nbsp
+                                            {% endif %}
+                                        {% endfor %}
+                                    </th>
+                                    <th scope="col" style="vertical-align: middle">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <a href="{{ path('app_album_show', {'id': album.id}) }}"  class="btn btn-dark">Détail</a>
+                                            <a href="{{ path('app_album_edit', {'id': album.id}) }}"  class="btn btn-dark">Modifier</a>
+                                        </div>
+                                    </th>
+                                </tr>
+                                {% set i = i + 1 %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

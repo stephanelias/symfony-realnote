@@ -4,21 +4,21 @@
 
 {% block body %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
-
 
     {% if is_granted("ROLE_ADMIN") %}
-    Vous êtes administrateur
-        <div>
-            Voir les artistes <a href="{{ path('app_artist_index') }}">ici</a>
-            Voir les albums <a href="{{ path('app_album_index') }}">ici</a>
+    <div class="container">
+        <div class="col-lg-4 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Vous êtes administrateur</h5>
+                    <p class="card-text">Cliquer sur le button pour accéder au dashboard</p>
+                    <a href="{{ path("app_dashboard") }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
         </div>
-
+    </div>
 
     {% endif %}
+
 
 {% endblock %}

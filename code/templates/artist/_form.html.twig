@@ -1,4 +1,7 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-<button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.name, { 'label': 'Nom de scène' }) }}
+    {{ form_row(form.real_name, { 'label': 'Vrai nom' }) }}
+    {{ form_row(form.birth_date, { 'label': 'Date de naissance' }) }}
+    {{ form_row(form.summary, { 'label': 'Biographie' }) }}
+<button class="btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
 {{ form_end(form) }}

@@ -3,50 +3,97 @@
 {% block title %}Artist{% endblock %}
 
 {% block body %}
-    <h1>Artist</h1>
+    <div class="container">
+        <div class="col-lg-6 mx-auto">
+            <img src="https://via.placeholder.com/150"alt="" class="rounded mx-auto d-block img-thumbnail" width="300">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ artist.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ artist.name }}</td>
-            </tr>
-            <tr>
-                <th>Real_name</th>
-                <td>{{ artist.realName }}</td>
-            </tr>
-            <tr>
-                <th>Birth_date</th>
-                <td>{{ artist.birthDate ? artist.birthDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Summary</th>
-                <td>{{ artist.summary }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <div class="card text-center">
+                <div class="card-header">
+                    {{ artist.realName }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ artist.name }}</h5>
+                    <p class="card-text">{{ artist.summary }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    {{ artist.birthDate }}
+                </div>
+            </div>
+            <p></p>
+            <h2>Albums</h2>
 
-    <div>
-        Albums :
-        {% for a in artist.albums %}
-        {{ a.name }}
-        {% endfor %}
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for album in artist.albums %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="https://via.placeholder.com/300"  alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ album.name }}</h5>
+                                <p class="card-text">
+                                    {% for a in album.artists %}
+                                        {% if loop.last %}
+                                            {{ a.name }}
+                                        {% else %}
+                                            {{ a.name }}, &nbsp
+                                        {% endif %}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <p></p>
+            <h2>Apparitions</h2>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Album</th>
+                    <th scope="col">Artiste(s)</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set i = 1  %}
+                {% for f in artist.titles %}
+                    <tr>
+                        <th scope="col" style="vertical-align: middle">{{ i }}</th>
+                        <th scope="col" style="vertical-align: middle">{{ f.name }}</th>
+                        <th scope="col" style="vertical-align: middle">
+                            <img src="https://via.placeholder.com/50" alt="">&nbsp&nbsp{{ f.album.name }}
+                        </th>
+                        <th scope="col" style="vertical-align: middle">
+                            {% for art in f.album.artists %}
+                                {{ art.name }}, &nbsp
+                            {% endfor %}
+                            {% for ft in f.feats %}
+                                {% if loop.last %}
+                                    {{ ft.name }}
+                                {% else %}
+                                    {{ ft.name }}, &nbsp
+                                {% endif %}
+                            {% endfor %}
+                        </th>
+                    </tr>
+                    {% set i = i + 1 %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <p></p>
+            <a class="btn btn-dark" href="{{ path('app_dashboard') }}">Retour</a>
+
+            <a class="btn btn-dark" href="{{ path('app_artist_edit', {'id': artist.id}) }}">Modifier</a>
+
+            {{ include('artist/_delete_form.html.twig') }}
+        </div>
+
+
+
     </div>
 
-    <div>
-        Apparitions :
-        {% for f in artist.titles %}
-        {{ f.name }}
-        {% endfor %}
-    </div>
 
-    <a href="{{ path('app_artist_index') }}">back to list</a>
 
-    <a href="{{ path('app_artist_edit', {'id': artist.id}) }}">edit</a>
-
-    {{ include('artist/_delete_form.html.twig') }}
 {% endblock %}

@@ -3,9 +3,15 @@
 {% block title %}New Artist{% endblock %}
 
 {% block body %}
-    <h1>Create new Artist</h1>
+    <div class="container">
+        <div class="col-lg-4" style="margin-top: 15px">
+            <h1>Créer un nouvel artiste</h1>
 
-    {{ include('artist/_form.html.twig') }}
+            {{ include('artist/_form.html.twig') }}
 
-    <a href="{{ path('app_artist_index') }}">back to list</a>
+            <a class="btn btn-dark" href="{{ path('app_dashboard') }}">Retour</a>
+        </div>
+
+    </div>
+
 {% endblock %}

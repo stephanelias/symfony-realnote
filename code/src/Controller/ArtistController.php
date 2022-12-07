@@ -6,6 +6,7 @@ use App\Entity\Artist;
 use App\Form\ArtistType;
 use App\Repository\ArtistRepository;
 use App\Repository\TitleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,7 @@ class ArtistController extends AbstractController
 
     /**
      * @Route("/new", name="app_artist_new", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request, ArtistRepository $artistRepository): Response
     {
@@ -38,7 +40,7 @@ class ArtistController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $artistRepository->add($artist, true);
 
-            return $this->redirectToRoute('app_artist_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('artist/new.html.twig', [
@@ -68,7 +70,7 @@ class ArtistController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $artistRepository->add($artist, true);
 
-            return $this->redirectToRoute('app_artist_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('artist/edit.html.twig', [
@@ -86,6 +88,6 @@ class ArtistController extends AbstractController
             $artistRepository->remove($artist, true);
         }
 
-        return $this->redirectToRoute('app_artist_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 }

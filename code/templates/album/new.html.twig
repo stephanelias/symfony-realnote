@@ -3,9 +3,15 @@
 {% block title %}New Album{% endblock %}
 
 {% block body %}
-    <h1>Create new Album</h1>
+    <div class="container">
+        <div class="col-lg-4" style="margin-top: 15px">
+            <h1>Créer un album</h1>
 
-    {{ include('album/_form.html.twig') }}
+            {{ include('album/_form.html.twig') }}
 
-    <a href="{{ path('app_album_index') }}">back to list</a>
+            <a class="btn btn-dark" href="{{ path('app_dashboard') }}">Retour</a>
+        </div>
+    </div>
+
+
 {% endblock %}

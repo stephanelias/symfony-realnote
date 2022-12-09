@@ -3,40 +3,35 @@
 {% block title %}Artist index{% endblock %}
 
 {% block body %}
-    <h1>Artistes</h1>
+    <div class="container">
+        <h1 style="margin-top: 15px; margin-bottom: 15px">Les 5 derniers artistes enregistrés</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Real_name</th>
-                <th>Birth_date</th>
-                <th>Summary</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for artist in artists %}
-            <tr>
-                <td>{{ artist.id }}</td>
-                <td>{{ artist.name }}</td>
-                <td>{{ artist.realName }}</td>
-                <td>{{ artist.birthDate ? artist.birthDate|date('Y-m-d') : '' }}</td>
-                <td>{{ artist.summary }}</td>
-                <td>
-                    <a href="{{ path('app_artist_show', {'id': artist.id}) }}">show</a>
-                    <a href="{{ path('app_artist_edit', {'id': artist.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <h1 style="margin-top: 15px; margin-bottom: 15px">Liste des artistes</h1>
 
-    <a href="{{ path('app_artist_new') }}">Create new</a>
-    <a href="{{ path('app_home') }}">Home</a>
+        <div class="col-lg-6 mx-auto">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for artist in artists %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="https://via.placeholder.com/300" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title" style="text-align: center"><a href="{{ path('app_artist_show', {'id': artist.id}) }}">{{ artist.name }}</a></h5>
+                                <p class="card-text" style="text-align: center">
+                                    Artiste
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                {% else %}
+                    Pas d'artistes enregistrés
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <a class="btn btn-dark" href="{{ path('app_home') }}">Retour</a>
+
+    </div>
+
 {% endblock %}

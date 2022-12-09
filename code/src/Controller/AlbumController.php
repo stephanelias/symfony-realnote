@@ -8,6 +8,7 @@ use App\Repository\AlbumRepository;
 use App\Repository\ArtistRepository;
 use App\Repository\TitleRepository;
 use App\Service\SaveAppears;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,7 @@ class AlbumController extends AbstractController
 
     /**
      * @Route("/new", name="app_album_new", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request, AlbumRepository $albumRepository, SaveAppears $saveAppears,TitleRepository $titleRepository, ArtistRepository $artistRepository): Response
     {
@@ -40,7 +42,7 @@ class AlbumController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $albumRepository->add($album, true);
             $saveAppears->exec($album,$artistRepository,$titleRepository);
-            return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('album/new.html.twig', [
@@ -61,6 +63,7 @@ class AlbumController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="app_album_edit", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Album $album, AlbumRepository $albumRepository, SaveAppears $saveAppears,TitleRepository $titleRepository, ArtistRepository $artistRepository): Response
     {
@@ -70,7 +73,7 @@ class AlbumController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $albumRepository->add($album, true);
             $saveAppears->exec($album,$artistRepository,$titleRepository);
-            return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('album/edit.html.twig', [
@@ -81,6 +84,7 @@ class AlbumController extends AbstractController
 
     /**
      * @Route("/{id}", name="app_album_delete", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Album $album, AlbumRepository $albumRepository): Response
     {
@@ -88,6 +92,6 @@ class AlbumController extends AbstractController
             $albumRepository->remove($album, true);
         }
 
-        return $this->redirectToRoute('app_album_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 }

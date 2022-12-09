@@ -61,6 +61,7 @@ class ArtistController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="app_artist_edit", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Artist $artist, ArtistRepository $artistRepository): Response
     {
@@ -81,6 +82,7 @@ class ArtistController extends AbstractController
 
     /**
      * @Route("/{id}", name="app_artist_delete", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Artist $artist, ArtistRepository $artistRepository): Response
     {

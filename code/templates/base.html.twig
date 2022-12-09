@@ -33,7 +33,9 @@
                         <a class="nav-link" href="{{ path('app_artist_index') }}">Artistes</a>
                     </li>
                 </ul>
+                {% if app.user %}
                 <span class="navbar-text">Bonjour {{ app.user.username }} &nbsp; <a href="{{ path('app_logout') }}">Déconnexion</a></span>
+                {% endif %}
             </div>
         </div>
     </nav>

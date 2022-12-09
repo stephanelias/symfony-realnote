@@ -1,10 +1,10 @@
 {{ form_start(form) }}
     {{ form_widget(form._token) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.release_date) }}
-        {{ form_row(form.artists)  }}
-        {{ form_row(form.category)  }}
-<button type="button" class="btn btn-primary btn-new" data-collection="#titles">NEW TITRE</button>
+        {{ form_row(form.name, { 'label': "Nom de l'album"}) }}
+        {{ form_row(form.release_date, { 'label': 'Date de sortie' }) }}
+        {{ form_row(form.artists, { 'label': 'Artiste(s)' }) }}
+        {{ form_row(form.category, { 'label': 'Catégorie' }) }}
+<button type="button" class="btn btn-dark btn-new" data-collection="#titles">Nouveau titre</button>
 <div
         id="titles"
         class="row"
@@ -19,5 +19,5 @@
 </div>
 {{ form_errors(form.titles) }}
 <p>&nbsp;</p>
-<button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<button class="btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+{{ form_end(form,{render_rest: false}) }}

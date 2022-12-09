@@ -3,54 +3,78 @@
 {% block title %}Album{% endblock %}
 
 {% block body %}
-    <h1>Album</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ album.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ album.name }}</td>
-            </tr>
-            <tr>
-                <th>Release_date</th>
-                <td>{{ album.releaseDate ? album.releaseDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Tracks</th>
-                <td>
-                    {% for t in album.titles %}
-                    <div>
-                        <p>{{ t.name }}</p>
-                        <p>
-                           {% for ar in t.album.artists %}
-                               {% if loop.last %}
-                                   <a href="{{ path('app_artist_show', {'id': ar.id}) }}">{{ ar.name }}</a>
-                               {% else %}
-                                   <a href="{{ path('app_artist_show', {'id': ar.id}) }}">{{ ar.name }}, </a>
-                               {% endif %}
-                           {% endfor %}
-                            {% for f in t.feats %}
-                                {% if loop.last %}
-                                    <a href="{{ path('app_artist_show', {'id': f.id}) }}">{{ f.name }}</a>
-                                {% else %}
-                                    <a href="{{ path('app_artist_show', {'id': f.id}) }}"> {{ f.name }}, </a>
-                                {% endif %}
-                            {% endfor %}
-                        </p>
-                    </div>
-                    {% endfor %}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <div class="col-lg-8 mx-auto">
+            <p></p>
+            <div class="row">
+                <div class="col-lg-3">
+                    <img src="https://via.placeholder.com/150" alt="" class="rounded mx-auto d-block img-thumbnail" width="300">
+                </div>
+                <div class="col-lg-5" style="margin-bottom: 20px">
+                    <h3>Album</h3>
+                    <h1>{{ album.name }}</h1>
+                    <p>
+                        {% for artist in album.artists %}
+                            {% if loop.last %}
+                                {{ artist.name }}
+                            {% else %}
+                                {{ artist.name }}, &nbsp
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
 
-    <a href="{{ path('app_album_index') }}">back to list</a>
+            <a class="btn btn-warning" style="margin-bottom: 20px; margin-top: 20px">Ajouter à mes albums</a>
 
-    <a href="{{ path('app_album_edit', {'id': album.id}) }}">edit</a>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Lyrics</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set i = 1  %}
+                {% for title in album.titles %}
+                    <tr>
+                        <td  style="vertical-align: middle">{{ i }}</td>
+                        <td>
+                            <div>
+                                <p style="margin-bottom: 0.3rem;">{{ title.name }}</p>
+                                <p style="margin-bottom: 0.3rem;">
+                                    {% for ar in title.album.artists %}
+                                        <a href="{{ path('app_artist_show', {'id': ar.id}) }}">{{ ar.name }}</a>
+                                    {% endfor %}
+                                    {% for f in title.feats %}
+                                        <a href="{{ path('app_artist_show', {'id': f.id}) }}">, {{ f.name }}</a>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <a class="btn btn-dark" style="vertical-align: middle">Voir</a>
+                        </td>
+                    </tr>
+                    {% set i = i + 1 %}
+                {% endfor %}
+                </tbody>
+            </table>
 
-    {{ include('album/_delete_form.html.twig') }}
+            <p>Sortie le {{ album.releaseDate | date("d-m-Y") }}</p>
+
+            <a class="btn btn-dark" href="{{ path('app_dashboard') }}">Retour</a>
+
+            {% if is_granted("ROLE_ADMIN") %}
+            <a class="btn btn-dark" href="{{ path('app_album_edit', {'id': album.id}) }}">Modifier</a>
+
+            {{ include('album/_delete_form.html.twig') }}
+            {% endif %}
+        </div>
+    </div>
+
+
+
 {% endblock %}

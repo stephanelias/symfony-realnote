@@ -83,7 +83,7 @@ class SaveAppears {
             $f1 = str_split($f,strlen($f)) ;
             return $f1;
         }
-
+    return null ;
     }
 
     public function createNewIfDontExist(ArtistRepository $artistRepository,string $name) {

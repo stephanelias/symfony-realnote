@@ -3,42 +3,44 @@
 {% block title %}Album index{% endblock %}
 
 {% block body %}
-    <h1>Album index</h1>
+    <div class="container">
+        <h1 style="margin-top: 15px; margin-bottom: 15px">Les 5 derniers albums enregistrés</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Release_date</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for album in albums %}
-            <tr>
-                <td>{{ album.id }}</td>
-                <td>{{ album.name }}</td>
-                <td>
-                    {% for a in album.artists %}
-                        <a href="{{ path('app_artist_show', {'id': a.id}) }}">{{ a.name }}</a>
-                    {% endfor %}
-                </td>
-                <td>{{ album.releaseDate ? album.releaseDate|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_album_show', {'id': album.id}) }}">show</a>
-                    <a href="{{ path('app_album_edit', {'id': album.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <h1 style="margin-top: 15px; margin-bottom: 15px">Liste des albums</h1>
 
-    <a href="{{ path('app_album_new') }}">Create new</a>
-    <a href="{{ path('app_home') }}">Home</a>
+        <div class="col-lg-6 mx-auto">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for album in albums %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align: center"><a href="{{ path('app_album_show', {'id': album.id}) }}">{{ album.name }}</a></h5>
+                        <p class="card-text" style="text-align: center">
+                            {% for artist in album.artists %}
+                                {% if loop.last %}
+                                    {{ artist.name }}
+                                {% else %}
+                                    {{ artist.name }}, &nbsp
+                                {% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="card-footer" style="text-align: center">
+                        <small class="text-muted" >{{ album.releaseDate | date("d-m-Y")}}</small>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                Pas d'albums enregistrés
+            {% endfor %}
+
+        </div>
+        </div>
+
+        <a class="btn btn-dark" href="{{ path('app_home') }}">Retour</a>
+
+    </div>
+
 
 {% endblock %}

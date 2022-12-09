@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Artist;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,7 +15,10 @@ class ArtistType extends AbstractType
         $builder
             ->add('name')
             ->add('real_name')
-            ->add('birth_date')
+            ->add('birth_date',DateType::class,[
+                'widget' => 'choice',
+                'years' => range(date('Y')-50,date('Y')+20)
+            ])
             ->add('summary')
         ;
     }

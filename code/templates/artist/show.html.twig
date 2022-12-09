@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container">
         <div class="col-lg-6 mx-auto">
-            <img src="https://via.placeholder.com/150"alt="" class="rounded mx-auto d-block img-thumbnail" width="300">
+            <img src="https://via.placeholder.com/150"alt="" class="rounded mx-auto d-block img-thumbnail" width="200" style="margin-bottom: 15px">
 
             <div class="card text-center">
                 <div class="card-header">
@@ -13,10 +13,10 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ artist.name }}</h5>
-                    <p class="card-text">{{ artist.summary }}</p>
+                    <p class="card-text">{{ artist.summary | nl2br }}</p>
                 </div>
                 <div class="card-footer text-muted">
-                    {{ artist.birthDate }}
+                    {{ artist.birthDate | date("d-m-Y") }}
                 </div>
             </div>
             <p></p>
@@ -60,9 +60,11 @@
                 {% for f in artist.titles %}
                     <tr>
                         <th scope="col" style="vertical-align: middle">{{ i }}</th>
-                        <th scope="col" style="vertical-align: middle">{{ f.name }}</th>
                         <th scope="col" style="vertical-align: middle">
-                            <img src="https://via.placeholder.com/50" alt="">&nbsp&nbsp{{ f.album.name }}
+                            <img src="https://via.placeholder.com/50" alt="">&nbsp&nbsp{{ f.name }}
+                        </th>
+                        <th scope="col" style="vertical-align: middle">
+                            {{ f.album.name }}
                         </th>
                         <th scope="col" style="vertical-align: middle">
                             {% for art in f.album.artists %}
@@ -85,9 +87,12 @@
             <p></p>
             <a class="btn btn-dark" href="{{ path('app_dashboard') }}">Retour</a>
 
+            {% if is_granted("ROLE_ADMIN") %}
+
             <a class="btn btn-dark" href="{{ path('app_artist_edit', {'id': artist.id}) }}">Modifier</a>
 
             {{ include('artist/_delete_form.html.twig') }}
+            {% endif %}
         </div>
 
 
